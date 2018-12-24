@@ -1,7 +1,7 @@
 AutoForm.addInputType('ace', {
 	template: 'afAce',
 	valueIn: function(val, atts) {
-        if (atts.id) 
+        if (atts.id)
         {
           var editor = AceEditor.instance(atts.id);
           if (editor && (typeof editor === "object")) {
@@ -55,7 +55,7 @@ var loadScript = function (script, successfulCB, failCB) {
 
 Template.afAce.onRendered(function() {
 	var template = this;
-	var theme = template.data.atts['data-ace-theme'] || 'xcode';
+	var theme = template.data.atts['data-ace-theme'] || 'monokai';
 	var mode = template.data.atts['data-ace-mode'] || 'javascript';
 	var height = template.data.atts['data-ace-height'] || '300px';
 	var static_words = template.data.atts['data-ace-static-words'] || null;
@@ -103,12 +103,14 @@ Template.afAce.onRendered(function() {
 	Tracker.autorun(function(e) {
 		template.editor = AceEditor.instance(template.editorId, {
 			theme: theme,
-			mode:  mode
+			mode:  mode,
 		});
 
 		if (!_.isUndefined(template.editor.loaded) && template.editor.loaded) {
 			e.stop();
 			template.editor.$blockScrolling = Infinity;
+
+			template.editor.setFontSize(20);
 
 			if (initialValue) {
 				template.editor.insert(initialValue);
